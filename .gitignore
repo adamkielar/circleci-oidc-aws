@@ -1,0 +1,12 @@
+terraform/.terraform
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+*.lock.hcl
