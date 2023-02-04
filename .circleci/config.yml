@@ -13,11 +13,9 @@ jobs:
     steps:
       - checkout
       - aws-cli/setup:
+          profile-name: OIDC PROFILE
           role-arn: ${<< parameters.aws_role_arn >>}
-          aws-region: us-west-1
-          profile-name: oidc
           role-session-name: deploy
-          session-duration: 3600
       - run:
           name: Verify AWS credentials
           command: aws sts get-caller-identity
