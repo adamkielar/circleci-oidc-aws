@@ -9,22 +9,15 @@ jobs:
       aws_role_arn:
         type: string
         default: AWS_ROLE_ARN
-    executor: aws-cli/default
+    executor: cimg/aws:2022.06
     steps:
       - checkout
-      - aws-cli/install
-      - run:
-          name: Get short-term credentials
-          command: |
-            STS=$(aws sts assume-role-with-web-identity \
-            --role-arn ${<< parameters.aws_role_arn >>} \
-            --role-session-name "deploy" \
-            --web-identity-token "${CIRCLE_OIDC_TOKEN}" \
-            --duration-seconds 3600 \
-            --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' --output text)
-            echo "export AWS_ACCESS_KEY_ID=${STS[0]}" >> $BASH_ENV
-            echo "export AWS_SECRET_ACCESS_KEY=${STS[1]}" >> $BASH_ENV
-            echo "export AWS_SESSION_TOKEN=${STS[2]}" >> $BASH_ENV
+      - aws-cli/setup:
+          role-arn: ${<< parameters.aws_role_arn >>}
+          aws-region: us-west-1
+          profile-name: oidc
+          role-session-name: deploy
+          session-duration: 3600
       - run:
           name: Verify AWS credentials
           command: aws sts get-caller-identity
