@@ -27,6 +27,12 @@ jobs:
       - run:
           name: Verify AWS credentials
           command: aws sts get-caller-identity
+      - run:
+          name: List S3 buckets
+          command: aws s3 ls
+      - run:
+          name: List Elastic Container Registry (should fail, we did not grant permissions)
+          command: aws ecr describe-repositories
 
 workflows:
   main:
