@@ -17,9 +17,6 @@ jobs:
           role-arn: ${<< parameters.aws_role_arn >>}
           role-session-name: deploy
       - run:
-          name: Verify AWS credentials
-          command: aws sts get-caller-identity
-      - run:
           name: List S3 buckets
           command: aws s3 ls
       - run:
