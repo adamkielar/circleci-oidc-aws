@@ -9,7 +9,7 @@ jobs:
       aws_role_arn:
         type: string
         default: AWS_ROLE_ARN
-    executor: cimg/aws:2022.06
+    executor: aws-cli/default
     steps:
       - checkout
       - aws-cli/setup:
